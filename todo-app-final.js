@@ -5,6 +5,7 @@ const filters = {
     hideCompleted: false
 }
 
+// check for existing saved data
 const todosJSON = localStorage.getItem('todos')
 if (todosJSON !== null) {
     todos = JSON.parse(todosJSON)
@@ -27,9 +28,9 @@ const renderTodos = (todos, filters) => {
     document.querySelector('#todos').appendChild(summary)
 
     filteredTodos.forEach((todo) => {
-        const p = document.createElement('p')
-        p.textContent = todo.text
-        document.querySelector('#todos').appendChild(p)
+        const todoElement = document.createElement('p')
+        todoElement.textContent = todo.text
+        document.querySelector('#todos').appendChild(todoElement)
     })
 }
 
@@ -47,6 +48,8 @@ document.querySelector('#new-todo').addEventListener('submit', (e) => {
         text: e.target.elements.text.value,
         completed: false
     })
+
+    localStorage.setItem('todos', JSON.stringify(todos))
 
     renderTodos(todos, filters)
 
