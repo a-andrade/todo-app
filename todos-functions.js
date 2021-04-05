@@ -19,7 +19,7 @@ const renderTodos = (todos, filters) => {
     const filteredTodos = todos.filter((todo) => {
         const searchTextMatch = todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
         const hideCompletedMatch = !filters.hideCompleted || !todo.completed
-
+        debugger
         return searchTextMatch && hideCompletedMatch
     })
 
@@ -27,7 +27,7 @@ const renderTodos = (todos, filters) => {
 
     document.querySelector('#todos').innerHTML = ''
 
-    document.querySelector('#todos').appendChild(generateSummaryDOM)
+    document.querySelector('#todos').appendChild(generateSummaryDOM(incompleteTodos))
 
     filteredTodos.forEach((todo) => {
         document.querySelector('#todos').appendChild(generateTodoDOM(todo))
@@ -36,8 +36,23 @@ const renderTodos = (todos, filters) => {
 
 // generate the DOM structure for a todo
 const generateTodoDOM = (todo) => {
-    const todoElement = document.createElement('p')
-    todoElement.textContent = todo.text
+    const todoElement = document.createElement('div')
+    const checkbox = document.createElement('input')
+    const todoText = document.createElement('span')
+    const removeButton = document.createElement('button')
+
+    // setup todo checkbox
+    checkbox.setAttribute('type', 'checkbox')
+    todoElement.appendChild(checkbox)
+
+    // setup todo text
+    todoText.textContent = todo.text
+    todoElement.appendChild(todoText)
+
+    // setup remove button
+    removeButton.textContent = 'x'
+    todoElement.appendChild(removeButton)
+
     return todoElement
 }
 
